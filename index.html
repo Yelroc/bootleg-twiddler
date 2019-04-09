@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="jquery.js"></script>
+  <script src="data_generator.js"></script>
+  <link rel="data_generator" href="data_generator.js">
+
+</head>
+
+<body>
+  <script>
+
+    $(document).ready(function () {
+      var $body = $('body').css('background-color', 'teal');
+      $body.html('');
+
+      // The @name, The message, The timestamp
+      // var $handle = `@${streams.users.user}`;
+      // var $twid = `${streams.users.message}`;
+      // var timeRightNow = new Date;
+      // var $time = `${timeRightNow.toLocaleString}`;
+      // var $fullTwid = `${$handle}: ${$twid} ${$time}`;
+
+      // Sections of the HTML
+      var $twiddlerHeader = $('<div id="twiddlerHeader">').appendTo($body);
+      var $twiddlerBody = $('<div id="twiddlerBody">').appendTo($body);
+      var $twiddlerFooter = $('<div id="twiddlerFooter">').appendTo($body);
+      var $twiddlerMaker = $('<h1 id="twiddlerMakerText">').appendTo($twiddlerFooter).text("Bootleg Tweet Maker coming soon!");
+
+      // Stream of Tweets
+      var $twiddlerStream = $('<div id="twiddlerStream">').appendTo($twiddlerBody);
+      var $twiddlerStreamTitle = $('<h1 id="twiddlerStreamTitle">').appendTo($twiddlerStream).text("Live Stream");
+      var $twiddlerTitle = $('<h1 id="twiddlerTitle">').appendTo($twiddlerHeader).text("Welcome to Bootleg Twitter")
+      // $twiddlerStream.append($handle, $twid, $timeStamp);
+      // Sidebar including, User History and Hashtag History
+      var $twiddlerSidebar = $('<div id="twiddlerSidebar">').appendTo($twiddlerBody);
+
+      // User List, Adding Users to List
+      var $twiddlerUserList = $('<div id="twiddlerUserList">').appendTo($twiddlerSidebar);
+      var $twiddlerUserListHeader = $('<h1 id="twiddlerUserListHeader">').appendTo($twiddlerUserList).text("User List");
+      var $twiddlerUsers = $('<li id="twiddlerUsers">').appendTo($twiddlerUserList);
+      // users.map(user => {
+      //   $twiddlerUsers.append($('<li>').text(user));
+      // })
+
+      // Each Users History
+      var $twiddlerUserHistory = $('<div id="twiddlerUserHistory">').appendTo($twiddlerSidebar);
+      var $twiddlerUserHistoryHeader = $('<h1 id="twiddlerUserHistoryHeader">').appendTo($twiddlerUserHistory).text("User History");
+
+      // Tweet Maker
+      // var $twiddlerInput = $('<form id="twiddlerInput">').appendTo($twiddlerFooter);
+      // var $inputTwiddlerHandle = $('<input type="text" id="twiddlerName" name="twiddlerHandle"> <label for"name">Twiddler Handle</label>').appendTo($twiddlerInput);
+      // var $inputTwid = $('<input type="text" id="inputTwid" name"twid"> <label for"twid">Type Twid</label>').appendTo($twiddlerInput);
+      // var $submitTwid = $('<button id="sendTwid>').text('Send Twid!').appendTo($twiddlerInput);
+
+
+      // Show Users Tweet History
+      var $userButton = users.map(user => {
+        $('<button id="user">').text(user).appendTo($twiddlerUsers).on('click', function () {
+          // console.log('hey');
+          streams.home.forEach(person => {
+            // converet Date to simple format
+            let timey = person.created_at
+            let rightTime = timey.toLocaleString()
+            // access to each part of the tweet;
+            let $user = $('<div class="handle">').text(`@${user}`);
+            let $twid = $('<div class="twid">').text(`${person.message}`);
+            let $timestamp = $('<div class="timestamp">').text(`${rightTime}`);
+            if (user === person.user) {
+              $twidHistory = $('<li></li>').append($user, $twid, $timestamp)
+              $twiddlerUserHistory.append($twidHistory);
+            }
+          })
+        })
+      });
+      // console.log(streams.users);
+      // var currTime = new Date;
+      // var $twid = ('<div id="twid">').appendTo($twiddlerStream);
+      // var $handle = ('<div id="handle">').text(`@${streams.users.name}`);
+      // var $timeStamp = ('<div id="timeStamp">').text(`${currTime.toLocaleTimeString()}`);
+
+      // console.log($twid);
+      // console.log($handle);
+      // console.log($timeStamp);
+
+      // Button for Tweets
+      var $button = $('<button id="refreshTwids">').text('Refresh Twids').appendTo($twiddlerStream);
+      $button.on('click', function () {
+        var index = streams.home.length - 1;
+        while (index >= 0) {
+          var tweet = streams.home[index];
+          // console.log(tags);
+          var $tweet = $('<li></li>');
+          var currentDate = new Date();
+          var currDate = currentDate.toLocaleString()
+          var $twid = $('<div class="twid">').text(`${tweet.message}`);
+          var $handle = $('<div class="handle">').text(`@${tweet.user}`);
+          var $timestamp = $('<div class="timestamp">').text(`${currDate}`);
+          // var $tags = $('<div class="tags">').text(`${tags}`);
+          $tweet.append($handle, $twid, $timestamp);
+          $tweet.appendTo($twiddlerStream);
+          index -= 1;
+          // setInterval(() => {
+          //   ($button).trigger('click')
+          // }, 5000);
+        }
+      });
+    })
+
+    // Make Tweet
+
+
+
+
+  </script>
+</body>
+
+</html>
